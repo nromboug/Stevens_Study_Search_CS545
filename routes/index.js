@@ -3,11 +3,7 @@ const userRoutes = require('./users');
 
 const construct = (app) => {
     app.use('/posts', postRoutes);
-    //app.use('/users', userRoutes);
-
-    app.use('/', (req, res) => {
-        return res.redirect('/posts');
-    });
+    app.use('/login', userRoutes);
 
     app.use('*', (req, res) => {
         res.status(404).json({error: "Endpoint doesn't exist."});

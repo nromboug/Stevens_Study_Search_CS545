@@ -3,29 +3,29 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-function StudySessionCard() {
+function StudySessionCard({ group }) {
   return (
     <Card className="study-session-card" style={{ width: "25rem" }}>
       <Card.Body>
         <Card.Header>
-          <Card.Title>CS-545</Card.Title>
+          <Card.Title>{group.name}</Card.Title>
         </Card.Header>
         <ListGroup variant="flush">
           <ListGroup.Item>
             <b>Location: </b>
-            Burchard 118
+            {group.location}
           </ListGroup.Item>
           <ListGroup.Item>
             <b>Date: </b>
-            12/30/2022
+            {group.date}
           </ListGroup.Item>
           <ListGroup.Item>
             <b>Time: </b>
-            8:00pm
+            {group.time}
           </ListGroup.Item>
           <ListGroup.Item>
             <b>Posted by: </b>
-            Billy Bob
+            {group.posterId}
           </ListGroup.Item>
         </ListGroup>
         <Button variant="outline-dark">Manage</Button>

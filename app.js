@@ -7,6 +7,14 @@ const configRoutes = require('./routes');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+
+app.use(session({
+    name: 'AuthCookie',
+    secret: 'some secret string!',
+    resave: false,
+    saveUninitialized: true
+  }))
+
 configRoutes(app);
 
 app.listen(3000, () => {

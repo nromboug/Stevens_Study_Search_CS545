@@ -17,6 +17,21 @@ const getAllPosts = async () => {
     return foundPosts;
 };
 
+const getPostsByName = async (name) => {
+    const postsCollection = await posts();
+
+    const found = await postsCollection.find({name:name}).toArray();
+    return found;
+}
+
+const rsvpPost = async (id) => {
+    const postsCollection = await posts();
+
+    const inserted = await postsCollection.updateOne({_id:ObjectId(id)}, 
+                                                        {$push:{respondents:'John Doe'}});
+
+};
+
 const createPost = async (
     posterId,
     name,
@@ -57,5 +72,7 @@ module.exports = {
     getAllPosts,
     createPost,
     getPostById,
-    deletePost
+    deletePost,
+    getPostsByName,
+    rsvpPost
 }

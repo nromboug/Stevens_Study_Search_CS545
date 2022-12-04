@@ -39,8 +39,35 @@ router
             const removed = await postData.deletePost(req.params.id);
             res.json(removed);
         } catch (err) {
-            res.json({error:err});
+            res.json({ error: err });
         }
     })
 
-    module.exports = router;
+router
+    .route('/rsvp/:id')
+    .post(async (req, res) => {
+        const inserted = await postData.rsvpPost(req.params.id);
+        res.json('ok');
+    })
+
+
+router
+    .route('/categories')
+    .get(async (req, res) => {
+        const groups = await postData.getAllPosts();
+        const categories = [];
+        for (let post of groups) {
+            if (!categories.includes(post.name))
+                categories.push(post.name);
+        }
+        res.json(categories);
+    });
+
+router
+    .route('/category/:cat')
+    .get(async (req, res) => {
+        const groups = await postData.getPostsByName(req.params.cat);
+        res.json(groups);
+    });
+
+module.exports = router;

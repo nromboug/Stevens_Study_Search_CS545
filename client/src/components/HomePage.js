@@ -16,9 +16,19 @@ function HomePage() {
   const [locationText, setLocationText] = useState("");
   const [timeText, setTimeText] = useState("");
   const [dateText, setDateText] = useState("");
+  const [postId, setPostId] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+    setCourseText("");
+    setLocationText("");
+    setTimeText("");
+    setDateText("");
+    setPostId(null);
+    setShow(true);
+  };
   useEffect(() => {
     async function fetch() {
       const { data } = await axios.get("http://localhost:5000/posts");
@@ -45,15 +55,28 @@ function HomePage() {
       location: locationText,
       date: dateText,
       time: timeText,
-      posterId: "69",
+      posterId: sessionStorage.getItem("token"),
       name: courseText,
     };
-    await axios.post("http://localhost:5000/posts", JSON.stringify(post), {
-      headers: {
-        // Overwrite Axios's automatically set Content-Type
-        "Content-Type": "application/json",
-      },
-    });
+    if (postId) {
+      await axios.put(
+        `http://localhost:5000/posts/${postId}`,
+        JSON.stringify(post),
+        {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } else {
+      await axios.post("http://localhost:5000/posts", JSON.stringify(post), {
+        headers: {
+          // Overwrite Axios's automatically set Content-Type
+          "Content-Type": "application/json",
+        },
+      });
+    }
   };
   return (
     <div>
@@ -79,11 +102,19 @@ function HomePage() {
         </Dropdown>
       </div>
       <div>
-        <StudySessionGrid groups={groups} />
+        <StudySessionGrid
+          groups={groups}
+          setShow={setShow}
+          setCourseText={setCourseText}
+          setLocationText={setLocationText}
+          setTimeText={setTimeText}
+          setDateText={setDateText}
+          setPostId={setPostId}
+        />
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Study Group</Modal.Title>
+          <Modal.Title>Create/Manage Study Group</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -135,7 +166,7 @@ function HomePage() {
               <Form.Text className="text-muted">Example: 12/2/2022</Form.Text>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="dark" type="submit">
               Submit Study Group
             </Button>
           </Form>

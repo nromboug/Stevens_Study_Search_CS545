@@ -3,9 +3,30 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-function StudySessionCard({ group }) {
+function StudySessionCard({
+  group,
+  setShow,
+  setCourseText,
+  setLocationText,
+  setTimeText,
+  setDateText,
+  setPostId,
+}) {
+  function manage() {
+    setCourseText(group.name);
+    setLocationText(group.location);
+    setTimeText(group.time);
+    setDateText(group.date);
+    setPostId(group._id);
+    setShow(true);
+  }
+
   return (
-    <Card className="study-session-card" style={{ width: "25rem" }}>
+    <Card
+      className="study-session-card"
+      style={{ width: "25rem" }}
+      key={group.posterId + group.name + group.date}
+    >
       <Card.Body>
         <Card.Header>
           <Card.Title>{group.name}</Card.Title>
@@ -28,8 +49,20 @@ function StudySessionCard({ group }) {
             {group.posterId}
           </ListGroup.Item>
         </ListGroup>
-        <Button variant="outline-dark">Manage</Button>
-        <Button variant="outline-dark">RSVP</Button>
+        {group.posterId == sessionStorage.getItem("token") ? (
+          <Button
+            variant="outline-dark"
+            style={{ margin: "5px" }}
+            onClick={manage}
+          >
+            Manage
+          </Button>
+        ) : null}
+        {group.respondents.includes(sessionStorage.getItem("token")) ? null : (
+          <Button variant="outline-dark" style={{ margin: "5px" }}>
+            RSVP
+          </Button>
+        )}
       </Card.Body>
     </Card>
   );

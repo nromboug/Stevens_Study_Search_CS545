@@ -3,7 +3,15 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import StudySessionCard from "./StudySessionCard";
-function StudySessionGrid({ groups }) {
+function StudySessionGrid({
+  groups,
+  setShow,
+  setCourseText,
+  setLocationText,
+  setTimeText,
+  setDateText,
+  setPostId,
+}) {
   return (
     <Container>
       <Row xs={1} md={3}>
@@ -11,7 +19,16 @@ function StudySessionGrid({ groups }) {
           groups.map((group) => {
             return (
               <Col>
-                <StudySessionCard group={group} />
+                <StudySessionCard
+                  group={group}
+                  key={group.name + group.posterId}
+                  setShow={setShow}
+                  setCourseText={setCourseText}
+                  setLocationText={setLocationText}
+                  setTimeText={setTimeText}
+                  setDateText={setDateText}
+                  setPostId={setPostId}
+                />
               </Col>
             );
           })}

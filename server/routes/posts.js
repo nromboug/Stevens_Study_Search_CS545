@@ -42,6 +42,26 @@ router
             res.json({ error: err });
         }
     })
+    .put(async (req, res) => {
+        try {
+            const posterId = req.body.posterId;
+            const name = req.body.name;
+            const location = req.body.location;
+            const date = req.body.date;
+            const time = req.body.time;
+            const updated = await postData.updatePost(
+                req.params.id,
+                posterId,
+                name,
+                location,
+                date,
+                time
+            );
+            res.json(updated);
+        } catch (e) {
+            res.json({ error: e })
+        }
+    })
 
 router
     .route('/rsvp/:id')

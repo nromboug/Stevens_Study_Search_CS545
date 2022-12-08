@@ -20,15 +20,15 @@ const getAllPosts = async () => {
 const getPostsByName = async (name) => {
     const postsCollection = await posts();
 
-    const found = await postsCollection.find({name:name}).toArray();
+    const found = await postsCollection.find({ name: name }).toArray();
     return found;
 }
 
 const rsvpPost = async (id) => {
     const postsCollection = await posts();
 
-    const inserted = await postsCollection.updateOne({_id:ObjectId(id)}, 
-                                                        {$push:{respondents:'John Doe'}});
+    const inserted = await postsCollection.updateOne({ _id: ObjectId(id) },
+        { $push: { respondents: 'John Doe' } });
 
 };
 
@@ -59,14 +59,37 @@ const createPost = async (
 
 
 const deletePost = async (id) => {
-    
+
     const postsCollection = await posts();
     const removedPost = await getPostById(id);
 
-    const deletedInfo = await postsCollection.deleteOne({_id:ObjectId(id)});
+    const deletedInfo = await postsCollection.deleteOne({ _id: ObjectId(id) });
 
     return removedPost;
 };
+
+const updatePost = async (
+    id,
+    posterId,
+    name,
+    location,
+    date,
+    time
+) => {
+    const postsCollection = await posts();
+    const updated = await postsCollection.updateOne(
+        { _id: id },
+        {
+            posterId,
+            name,
+            location,
+            date,
+            time
+        }
+    );
+    const post = await getPostById(id);
+    return post;
+}
 
 module.exports = {
     getAllPosts,
@@ -74,5 +97,6 @@ module.exports = {
     getPostById,
     deletePost,
     getPostsByName,
-    rsvpPost
+    rsvpPost,
+    updatePost
 }

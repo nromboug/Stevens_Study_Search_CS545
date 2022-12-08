@@ -7,13 +7,14 @@ function StudySessionGrid({ groups }) {
   return (
     <Container>
       <Row xs={1} md={3}>
-        {groups.map((group) => {
-          return (
-            <Col>
-              <StudySessionCard group={group} />
-            </Col>
-          );
-        })}
+        {groups &&
+          groups.map((group) => {
+            return (
+              <Col>
+                <StudySessionCard group={group} />
+              </Col>
+            );
+          })}
       </Row>
     </Container>
   );

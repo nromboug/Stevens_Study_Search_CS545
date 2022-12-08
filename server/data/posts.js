@@ -78,13 +78,15 @@ const updatePost = async (
 ) => {
     const postsCollection = await posts();
     const updated = await postsCollection.updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         {
-            posterId,
-            name,
-            location,
-            date,
-            time
+            $set: {
+                posterId: posterId,
+                name: name,
+                location: location,
+                date: date,
+                time: time
+            }
         }
     );
     const post = await getPostById(id);

@@ -50,6 +50,7 @@ router
             const date = req.body.date;
             const time = req.body.time;
             const updated = await postData.updatePost(
+                req.params.id,
                 posterId,
                 name,
                 location,

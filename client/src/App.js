@@ -17,8 +17,7 @@ function App() {
     if (!token) return;
     sessionStorage.setItem("token", token);
   }
-  //New stuff
-  if (!sessionStorage.getItem("token"))
+  if (sessionStorage.getItem("token"))
     return (
       <div className="App">
         <header>

@@ -1,5 +1,4 @@
 import "../App.css";
-import Topbar from "./Topbar";
 import StudySessionGrid from "./StudySessionGrid";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";

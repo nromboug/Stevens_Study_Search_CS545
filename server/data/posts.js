@@ -31,6 +31,8 @@ const rsvpPost = async (id, userId) => {
     { _id: ObjectId(id) },
     { $push: { respondents: userId } }
   );
+  const updatedPost = await getPostById(id);
+  return updatedPost;
 };
 
 const createPost = async (posterId, name, location, date, time) => {

@@ -1,4 +1,6 @@
 import "../App.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -12,6 +14,8 @@ function StudySessionCard({
   setDateText,
   setPostId,
 }) {
+  const [clickedRSVP, setClickedRSVP] = useState(false);
+  const [respondents, setRespondents] = useState(group.respondents);
   function manage() {
     setCourseText(group.name);
     setLocationText(group.location);
@@ -20,6 +24,29 @@ function StudySessionCard({
     setPostId(group._id);
     setShow(true);
   }
+
+  useEffect(() => {
+    async function handleRSVP() {
+      try {
+        const { data } = await axios.post(
+          `http://localhost:5000/posts/rsvp/${group._id}`,
+          {
+            user: `${sessionStorage.getItem("token")}`,
+          }
+        );
+        console.log(data);
+        setRespondents(data.respondents);
+        return data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    if (clickedRSVP) {
+      const updatedPost = handleRSVP();
+      console.log(`Respondents are: ${respondents}`);
+    }
+    setClickedRSVP(false);
+  }, [clickedRSVP]);
 
   return (
     <Card
@@ -49,7 +76,7 @@ function StudySessionCard({
             {group.posterId}
           </ListGroup.Item>
         </ListGroup>
-        {group.posterId == sessionStorage.getItem("token") ? (
+        {group.posterId === sessionStorage.getItem("token") ? (
           <Button
             variant="outline-dark"
             style={{ margin: "5px" }}
@@ -58,8 +85,20 @@ function StudySessionCard({
             Manage
           </Button>
         ) : null}
-        {group.respondents.includes(sessionStorage.getItem("token")) ? null : (
-          <Button variant="outline-dark" style={{ margin: "5px" }}>
+        {respondents.includes(sessionStorage.getItem("token")) ? (
+          <Button
+            variant="outline-dark"
+            style={{ margin: "5px" }}
+            disabled={true}
+          >
+            Attending
+          </Button>
+        ) : (
+          <Button
+            variant="outline-dark"
+            style={{ margin: "5px" }}
+            onClick={() => setClickedRSVP(true)}
+          >
             RSVP
           </Button>
         )}

@@ -11,6 +11,7 @@ function StudySessionGrid({
   setTimeText,
   setDateText,
   setPostId,
+  setRespondents,
 }) {
   return (
     <Container>

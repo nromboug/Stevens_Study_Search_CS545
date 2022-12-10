@@ -81,6 +81,12 @@ function StudySessionCard({
             <b>Posted by: </b>
             {group.posterId}
           </ListGroup.Item>
+          {group.respondents.length ? (
+            <ListGroup.Item>
+              <b>Attending: </b>
+              {group.respondents.join(", ")}
+            </ListGroup.Item>
+          ) : null}
         </ListGroup>
         {group.posterId === sessionStorage.getItem("token") ? (
           <Button

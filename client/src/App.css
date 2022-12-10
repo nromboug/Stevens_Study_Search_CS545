@@ -47,9 +47,11 @@
 
 .create-group-button {
   margin-right: auto;
+  margin-left: 3rem;
 }
 
-.select-subject-dropdown {
+.subject-search {
+  margin-top: 1rem;
   margin-left: auto;
 }
 

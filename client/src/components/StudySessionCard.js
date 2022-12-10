@@ -8,6 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 function StudySessionCard({
   group,
   setShow,
+  setShowDelete,
   setCourseText,
   setLocationText,
   setTimeText,
@@ -23,6 +24,11 @@ function StudySessionCard({
     setDateText(group.date);
     setPostId(group._id);
     setShow(true);
+  }
+
+  function deletePost() {
+    setPostId(group._id);
+    setShowDelete(true);
   }
 
   useEffect(() => {
@@ -85,7 +91,10 @@ function StudySessionCard({
             Manage
           </Button>
         ) : null}
-        {respondents.includes(sessionStorage.getItem("token")) ? (
+        {group.posterId ===
+        sessionStorage.getItem("token") ? null : respondents.includes(
+            sessionStorage.getItem("token")
+          ) ? (
           <Button
             variant="outline-dark"
             style={{ margin: "5px" }}
@@ -102,6 +111,15 @@ function StudySessionCard({
             RSVP
           </Button>
         )}
+        {group.posterId === sessionStorage.getItem("token") ? (
+          <Button
+            variant="danger"
+            style={{ margin: "5px" }}
+            onClick={deletePost}
+          >
+            Delete
+          </Button>
+        ) : null}
       </Card.Body>
     </Card>
   );

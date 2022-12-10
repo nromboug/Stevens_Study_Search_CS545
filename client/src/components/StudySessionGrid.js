@@ -6,6 +6,7 @@ import StudySessionCard from "./StudySessionCard";
 function StudySessionGrid({
   groups,
   setShow,
+  setShowDelete,
   setCourseText,
   setLocationText,
   setTimeText,
@@ -23,6 +24,7 @@ function StudySessionGrid({
                   group={group}
                   key={group.name + group.posterId}
                   setShow={setShow}
+                  setShowDelete={setShowDelete}
                   setCourseText={setCourseText}
                   setLocationText={setLocationText}
                   setTimeText={setTimeText}
